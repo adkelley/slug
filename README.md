@@ -38,6 +38,11 @@ $ ./slug --target roam
 $ ./slug --t roam
 ```
 
+## Static code analysis
+Similar to linting in other languages, I'm using [Credo](https://github.com/rrrene/credo) for help with refactoring opportunites, 
+mistake warnings, and consistancy checks.  If you change the code, then you run Credo by running `mix credo` in the command line.
+Credo also has integrations with editors such as VSCode, and Emacs.
+
 ## Sample shell scripts
 When pairing this script together with Alfred, you can use the following shell script
 ```
