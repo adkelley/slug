@@ -13,12 +13,13 @@ defmodule Slug.MixProject do
   end
 
   defp escript do
-    [main_module: Slug, only: [:prod]]
+    [main_module: Slug.CLI]
   end
 
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
+      applications: [:bunt],
       extra_applications: [:logger]
     ]
   end
@@ -26,7 +27,9 @@ defmodule Slug.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:clipboard, ">= 0.0.0"}
+      {:clipboard, ">= 0.0.0"},
+      {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
+      {:bunt, "~> 0.2.0"}
     ]
   end
 end
