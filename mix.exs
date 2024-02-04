@@ -4,8 +4,8 @@ defmodule Slug.MixProject do
   def project do
     [
       app: :slug,
-      version: "0.1.0",
-      elixir: "~> 1.11",
+      version: "0.2.0",
+      elixir: "~> 1.16",
       start_permanent: Mix.env() == :prod,
       escript: escript(),
       deps: deps()
@@ -13,13 +13,12 @@ defmodule Slug.MixProject do
   end
 
   defp escript do
-    [main_module: Slug.CLI]
+    [main_module: Slug.CLI, include_executables: true]
   end
 
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
-      applications: [:bunt],
       extra_applications: [:logger]
     ]
   end
@@ -27,9 +26,8 @@ defmodule Slug.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:clipboard, ">= 0.0.0"},
-      {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
-      {:bunt, "~> 0.2.0"}
+      {:clipboard, ">= 0.2.1"},
+      {:credo, "~> 1.7.3", only: [:dev, :test], runtime: false}
     ]
   end
 end

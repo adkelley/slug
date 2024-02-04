@@ -5,21 +5,22 @@ defmodule Slug.CLI do
   url
 
   Example:
-  $ ./slug -t roam
-  $ ./slug --target roam
-  $ ./slug --target link
+  $ ./slug -t unread
+  $ ./slug --tags unread#food
   $ ./slug
   """
 
   def main(args) do
-    options = [switches: [target: :string], aliases: [t: :target]]
+    options = [switches: [tags: :string], aliases: [t: :tags]]
 
     {opts, _, _} = OptionParser.parse(args, options)
 
     case opts do
-      [target: "roam"] -> Slug.main(&Slug.format_roam/1)
-      [target: "link"] -> Slug.main(&Slug.format_link/1)
-      [] -> Slug.main(&Slug.format_link/1)
+      [tags: tags] ->
+        Slug.main(List.first(args), tags)
+
+      [] ->
+        Slug.main(List.first(args))
     end
   end
 end
