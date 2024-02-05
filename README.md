@@ -29,9 +29,11 @@ Running the script is as simple as follows:
 ## Options
 ```bash
 # These options convert the slug to standard markdown
-$ ./slug --tags #tag1#tag2 # Separate tags with a # as desired
-$ ./slug -t #tag1#tag2     # Separate tags with a # as desired
-$ ./slug
+$ ./slug url --tags tag1      # [last slug](url) #tag1
+$ ./slug url -t tag1#tag2     # [last slug](url) #tag1 #tag2 
+$ ./slug url -slug 2          # [slug 2 (after "https://")](url) 
+$ ./slug url -s 2             # [slug 2 (after "https://")](url) 
+$ ./slug url                  # [last slug](url) (default)
 ```
 
 ## Static code analysis

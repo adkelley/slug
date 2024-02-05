@@ -5,22 +5,25 @@ defmodule Slug do
   Add tags when the -t or --tags operator is present
   """
 
-  @spec url_to_slug(String.t()) :: String.t()
-  defp url_to_slug(value) do
-    value
-    |> String.trim()
-    |> String.trim_trailing("/")
-    |> String.split("/")
-    # TODO This where I can select the slot
-    |> List.last()
-    |> String.replace("-", " ")
+  @spec url_to_slug(String.t(), integer()) :: String.t()
+  defp url_to_slug(url, slot) do
+    slots =
+      url
+      |> String.trim()
+      |> String.trim_trailing("/")
+      |> String.split(~r{https?://}, parts: 2)
+      |> List.last()
+      |> String.split("/")
 
-    # TODO Capitalizing the first letter should be an option?
-    # |> String.capitalize()
+    if slot == 0 do
+      List.last(slots)
+    else
+      Enum.at(slots, slot - 1, List.last(slots))
+    end
   end
 
-  @spec url_slug(String.t()) :: %{url: String.t(), slug: String.t()}
-  def url_slug(url), do: %{url: url, slug: url |> url_to_slug()}
+  @spec url_slug(String.t(), String.t()) :: %{url: String.t(), slug: String.t()}
+  def url_slug(url, slot), do: %{url: url, slug: url |> url_to_slug(slot)}
 
   @spec format_link(map(), String.t()) :: String.t()
   def format_link(%{url: url, slug: slug}, tags) do
@@ -40,8 +43,8 @@ defmodule Slug do
   end
 
   @spec main(String.t(), list()) :: :ok
-  def main(url, tags \\ "") do
-    url_slug(url)
+  def main(url, tags, slot \\ 0) do
+    url_slug(url, slot)
     |> format_link(tags)
     |> Clipboard.copy()
 
