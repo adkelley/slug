@@ -17,16 +17,27 @@ defmodule Slug do
 
     if slot == 0 do
       List.last(slots)
+      |> format_slug()
     else
       Enum.at(slots, slot - 1, List.last(slots))
+      |> format_slug()
     end
   end
 
+
+  # Formats a slug by replacing hyphens with a space and capitalizing each word
+  @spec format_slug(String.t()) :: String.t()
+  defp format_slug(slug) do
+      String.split(slug, "-")
+      |> Enum.map(&String.capitalize/1)
+      |> Enum.join(" ")
+  end
+
   @spec url_slug(String.t(), String.t()) :: %{url: String.t(), slug: String.t()}
-  def url_slug(url, slot), do: %{url: url, slug: url |> url_to_slug(slot)}
+  defp url_slug(url, slot), do: %{url: url, slug: url |> url_to_slug(slot)}
 
   @spec format_link(map(), String.t()) :: String.t()
-  def format_link(%{url: url, slug: slug}, tags) do
+  defp format_link(%{url: url, slug: slug}, tags) do
     if tags == "" do
       "[#{slug}](#{url})"
     else
@@ -35,7 +46,7 @@ defmodule Slug do
   end
 
   @spec format_tags(String.t()) :: String.t()
-  def format_tags(tags) do
+  defp format_tags(tags) do
     tags
     |> String.split("#")
     |> Enum.reduce("", fn tag, acc -> "#{acc} ##{tag}" end)
